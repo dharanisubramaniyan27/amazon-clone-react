@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "./Header.css";
 
 function Header({ cartCount }) {
   return (
@@ -14,7 +15,7 @@ function Header({ cartCount }) {
       <div className="nav">
         <span>Hello, Sign in</span>
 
-        <Link to="/cart" style={{ color: "white", textDecoration: "none" }}>
+        <Link to="/cart">
           Cart
           <span className="cartCount">{cartCount}</span>
         </Link>

@@ -1,39 +1,46 @@
 .header {
+  height: 60px;
   display: flex;
   align-items: center;
-  background-color: #131921;
-  padding: 10px;
-  color: white;
+  background-color: #131921; /* Amazon black */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0 20px;
+  width: 100%;
 }
 
 .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
   margin-right: 20px;
 }
 
 .search {
   flex: 1;
-  padding: 5px;
+  padding: 7px;
+  border: none;
+  border-radius: 4px;
 }
 
-.nav span {
-  margin-left: 15px;
-  cursor: pointer;
-}
-.cartCount {
-  margin-left: 6px;
-  font-weight: bold;
-  color: #f08804;
-}
 .nav {
   display: flex;
   align-items: center;
-}
-.home {
-  padding: 20px;
+  margin-left: 20px;
 }
 
-.home__row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+.nav a,
+.nav span {
+  color: white;
+  text-decoration: none;
+  margin-left: 15px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.cartCount {
+  margin-left: 5px;
+  font-weight: bold;
+  color: #f08804;
 }
