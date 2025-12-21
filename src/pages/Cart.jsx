@@ -1,6 +1,6 @@
-function Cart({ cart, removeFromCart }) {
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+import "./Cart.css";
 
+function Cart({ cart }) {
   return (
     <div className="cart">
       <h2>Your Shopping Cart</h2>
@@ -8,21 +8,17 @@ function Cart({ cart, removeFromCart }) {
       {cart.length === 0 ? (
         <p>Your cart is empty</p>
       ) : (
-        cart.map((item, index) => (
-          <div className="cart__item" key={index}>
+        cart.map((item) => (
+          <div className="cart__item" key={item.id}>
             <img src={item.image} alt={item.title} />
-            <div>
-              <p>{item.title}</p>
+
+            <div className="cart__info">
+              <h4>{item.title}</h4>
               <p>₹{item.price}</p>
-              <button onClick={() => removeFromCart(index)}>
-                Remove
-              </button>
             </div>
           </div>
         ))
       )}
-
-      <h3>Total: ₹{total}</h3>
     </div>
   );
 }
