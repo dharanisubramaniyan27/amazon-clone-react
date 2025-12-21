@@ -19,3 +19,12 @@
   margin-left: 15px;
   cursor: pointer;
 }
+.cartCount {
+  margin-left: 6px;
+  font-weight: bold;
+  color: #f08804;
+}
+.nav {
+  display: flex;
+  align-items: center;
+}
