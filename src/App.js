@@ -14,11 +14,9 @@ function App() {
     setCart([...cart, product]);
   };
 
-  const removeFromCart = (index) => {
-    const newCart = [...cart];
-    newCart.splice(index, 1);
-    setCart(newCart);
-  };
+  const removeFromCart = (id) => {
+  setCart(cart.filter((item) => item.id !== id));
+};
 
   return (
     <Router>
