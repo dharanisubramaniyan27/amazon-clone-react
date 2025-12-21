@@ -1,0 +1,17 @@
+
+.cart {
+  padding: 20px;
+}
+
+.cart__item {
+  display: flex;
+  margin: 10px 0;
+  background: white;
+  padding: 10px;
+}
+
+.cart__item img {
+  width: 100px;
+  object-fit: contain;
+  margin-right: 10px;
+}
