@@ -1,21 +1,23 @@
-import React from "react";
-import "./Header.css"; // ✅ make sure only Header.css is imported
+import { Link } from "react-router-dom";
 
 function Header({ cartCount }) {
   return (
     <div className="header">
-      <h2 className="logo">Amazon</h2>
-      <input
-        className="search"
-        type="text"
-        placeholder="Search Amazon"
-      />
+      <h2 className="logo">
+        <Link to="/" style={{ color: "white", textDecoration: "none" }}>
+          Amazon
+        </Link>
+      </h2>
+
+      <input className="search" type="text" placeholder="Search Amazon" />
+
       <div className="nav">
         <span>Hello, Sign in</span>
-        <span>
+
+        <Link to="/cart" style={{ color: "white", textDecoration: "none" }}>
           Cart
           <span className="cartCount">{cartCount}</span>
-        </span>
+        </Link>
       </div>
     </div>
   );
