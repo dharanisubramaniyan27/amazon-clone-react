@@ -1,0 +1,21 @@
+.header {
+  display: flex;
+  align-items: center;
+  background-color: #131921;
+  padding: 10px;
+  color: white;
+}
+
+.logo {
+  margin-right: 20px;
+}
+
+.search {
+  flex: 1;
+  padding: 5px;
+}
+
+.nav span {
+  margin-left: 15px;
+  cursor: pointer;
+}
