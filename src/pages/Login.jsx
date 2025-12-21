@@ -1,21 +1,36 @@
+import "./Login.css";
 import { Link } from "react-router-dom";
-import "./Auth.css";
 
 function Login() {
   return (
-    <div className="auth">
-      <h2>Sign-In</h2>
+    <div className="login">
+      <Link to="/">
+        <h2 className="login__logo">Amazon</h2>
+      </Link>
 
-      <form>
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
-        <button>Sign In</button>
-      </form>
+      <div className="login__container">
+        <h1>Sign-In</h1>
 
-      <p>
-        New to Amazon?
-        <Link to="/register"> Create your account</Link>
-      </p>
+        <form>
+          <h5>E-mail</h5>
+          <input type="email" />
+
+          <h5>Password</h5>
+          <input type="password" />
+
+          <button className="login__signInButton">
+            Sign In
+          </button>
+        </form>
+
+        <p>
+          By signing-in you agree to Amazon's Conditions of Use & Sale.
+        </p>
+
+        <button className="login__registerButton">
+          Create your Amazon Account
+        </button>
+      </div>
     </div>
   );
 }
