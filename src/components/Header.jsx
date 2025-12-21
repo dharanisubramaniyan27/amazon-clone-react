@@ -13,13 +13,16 @@ function Header({ cartCount }) {
       <input className="search" type="text" placeholder="Search Amazon" />
 
       <div className="nav">
-        <span>Hello, Sign in</span>
+  <Link to="/login" style={{ color: "white", textDecoration: "none" }}>
+    Hello, Sign in
+  </Link>
 
-        <Link to="/cart">
-          Cart
-          <span className="cartCount">{cartCount}</span>
-        </Link>
-      </div>
+  <Link to="/cart" style={{ color: "white", textDecoration: "none" }}>
+    Cart
+    <span className="cartCount">{cartCount}</span>
+  </Link>
+</div>
+
     </div>
   );
 }

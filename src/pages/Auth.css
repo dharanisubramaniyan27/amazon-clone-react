@@ -1,0 +1,25 @@
+.auth {
+  width: 300px;
+  margin: 40px auto;
+  padding: 20px;
+  background: white;
+  border: 1px solid #ddd;
+}
+
+.auth h2 {
+  margin-bottom: 15px;
+}
+
+.auth input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+}
+
+.auth button {
+  width: 100%;
+  padding: 8px;
+  background: #f0c14b;
+  border: 1px solid;
+  cursor: pointer;
+}
