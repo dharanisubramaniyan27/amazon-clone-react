@@ -1,13 +1,27 @@
+import { Link } from "react-router-dom";
+import "./ProductCard.css";
+
 function ProductCard({ product, addToCart }) {
   return (
-    <div className="product">
-      <img src={product.image} alt={product.title} />
-      <div className="product__info">
-        <p className="product__title">{product.title}</p>
-        <p className="product__price"><strong>₹{product.price}</strong></p>
-        <div className="product__rating">{"⭐".repeat(product.rating)}</div>
-      </div>
-      <button onClick={() => addToCart(product)}>Add to Cart</button>
+    <div className="productCard">
+      <img
+  src={product.image}
+  alt={product.title}
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src =
+      "https://via.placeholder.com/300x300?text=Image+Not+Available";
+  }}
+/>
+      <Link to={`/product/${product.id}`}>
+        <h4>{product.title}</h4>
+      </Link>
+
+      <p>₹{product.price}</p>
+
+      <button onClick={() => addToCart(product)}>
+        Add to Cart
+      </button>
     </div>
   );
 }

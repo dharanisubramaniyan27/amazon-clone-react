@@ -1,8 +1,7 @@
-import products from "../data/products";
 import ProductCard from "../components/ProductCard";
 import "./Home.css";
 
-function Home({ addToCart }) {
+function Home({ products, addToCart }) {
   return (
     <div className="home">
       <div className="home__row">
