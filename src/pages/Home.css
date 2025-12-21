@@ -1,0 +1,9 @@
+.home {
+  padding: 20px;
+}
+
+.home__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
