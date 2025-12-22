@@ -1,15 +1,15 @@
-import "./Login.css";
 import { Link } from "react-router-dom";
+import "./Login.css";
 
 function Login() {
   return (
     <div className="login">
       <Link to="/">
-        <h2 className="login__logo">Amazon</h2>
+        <h1 className="login__logo">Amazon</h1>
       </Link>
 
       <div className="login__container">
-        <h1>Sign-In</h1>
+        <h2>Sign-In</h2>
 
         <form>
           <h5>E-mail</h5>
@@ -27,9 +27,11 @@ function Login() {
           By signing-in you agree to Amazon's Conditions of Use & Sale.
         </p>
 
-        <button className="login__registerButton">
-          Create your Amazon Account
-        </button>
+        <Link to="/register">
+          <button className="login__registerButton">
+            Create your Amazon Account
+          </button>
+        </Link>
       </div>
     </div>
   );
