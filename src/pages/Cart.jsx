@@ -22,8 +22,8 @@ function Cart({ cart, removeFromCart, addToCart }) {
               <p>Quantity: {item.qty}</p> {/* Show quantity */}
 
               <div className="cart__buttons">
-                <button onClick={() => removeFromCart(item.id)}>-</button>
-                <button onClick={() => addToCart(item)}>+</button>
+               <button type="button" onClick={() => removeFromCart(item.id)}>-</button>
+               <button type="button" onClick={() => addToCart(item)}>+</button>
               </div>
             </div>
           </div>

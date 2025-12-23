@@ -3,10 +3,9 @@
 }
 
 .productDetail__container {
-  display: flex;
-  gap: 20px;
-  margin-top: 20px;
+  pointer-events: auto;
 }
+
 
 .productDetail__container img {
   width: 250px;
@@ -41,4 +40,17 @@
 }
 .productDetail__info .productDetail__rating {
   color: #f0c14b;
+}
+.productDetail button {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.productDetail button:hover {
+  opacity: 0.8;
+}
+.productDetail img {
+  position: relative;
+  z-index: 1;
 }

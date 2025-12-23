@@ -32,7 +32,13 @@ function ProductDetail({ products, addToCart }) {
           <h2>{product.title}</h2>
           <p>Price: ₹{product.price}</p>
           <p>Rating: {product.rating} ⭐</p>
-          <button onClick={() => addToCart(product)}>Add to Cart</button>
+          <button
+  type="button"
+  onClick={() => addToCart(product)}
+>
+  Add to Cart
+</button>
+
         </div>
       </div>
     </div>

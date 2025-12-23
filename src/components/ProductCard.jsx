@@ -19,9 +19,10 @@ function ProductCard({ product, addToCart }) {
 
       <p>₹{product.price}</p>
 
-      <button onClick={() => addToCart(product)}>
-        Add to Cart
-      </button>
+      <button type="button" onClick={() => addToCart(product)}>
+  Add to Cart
+</button>
+
     </div>
   );
 }
