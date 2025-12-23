@@ -36,12 +36,32 @@ function App() {
   const [cart, setCart] = useState([]);
 
   const addToCart = (product) => {
-    setCart([...cart, product]);
-  };
+  const found = cart.find((item) => item.id === product.id);
+
+  if (found) {
+    setCart(
+      cart.map((item) =>
+        item.id === product.id ? { ...item, qty: item.qty + 1 } : item
+      )
+    );
+  } else {
+    setCart([...cart, { ...product, qty: 1 }]);
+  }
+};
+
 
   const removeFromCart = (id) => {
-    setCart(cart.filter((item) => item.id !== id));
-  };
+  setCart(
+    cart
+      .map((item) =>
+        item.id === id
+          ? { ...item, qty: item.qty - 1 } // reduce quantity by 1
+          : item
+      )
+      .filter((item) => item.qty > 0) // remove item if qty <= 0
+  );
+};
+
 
   return (
     <Router>
@@ -63,11 +83,16 @@ function App() {
         />
 
         <Route
-          path="/cart"
-          element={
-            <Cart cart={cart} removeFromCart={removeFromCart} />
-          }
-        />
+  path="/cart"
+  element={
+    <Cart
+      cart={cart}
+      removeFromCart={removeFromCart}
+      addToCart={addToCart} // ✅ pass addToCart here
+    />
+  }
+/>
+
       </Routes>
     </Router>
   );
