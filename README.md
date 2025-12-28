@@ -1,76 +1,80 @@
-# 🛒 Amazon Clone - Full Stack E-commerce Solution
+# 🛒 Amazon Clone – Full Stack E-Commerce Application
 
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
-![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
-
-A high-performance, scalable Amazon clone. This project demonstrates a deep integration between a reactive React frontend and a secure Node.js backend, backed by a relational MySQL database.
+A full-stack Amazon-like e-commerce web application built using **React, Node.js, Express, and MySQL**.
+This project demonstrates real-world **frontend–backend integration**, **secure authentication**, and **database-driven cart management**.
 
 ---
 
-## 🏗️ Architectural Overview
+## 🚀 Features
 
-The application is built on a **Modular 3-Tier Architecture**, ensuring that the frontend, backend, and data storage layers remain decoupled and highly maintainable.
+* User authentication (Register & Login)
+* Secure JWT-based authorization
+* Product listing with search & filtering
+* Add / remove items from cart
+* Quantity-based cart management
+* MySQL stored procedures for optimized queries
+* Modular and scalable project structure
 
-```mermaid
-graph TD
-    subgraph "Frontend Layer (React)"
-        A[App.js] --> B[Header Component]
-        A --> C[Home/Product Pages]
-        A --> D[Cart Page]
-        B -- "Filters" --> C
-    end
+---
 
-    subgraph "API Layer (Express)"
-        E[Server.js] --> F[Auth Routes]
-        E --> G[Product Routes]
-        E --> H[Cart Routes]
-    end
+## 🏗️ System Architecture
 
-    subgraph "Data Layer (MySQL)"
-        I[(amazon_db)]
-    end
+The application follows a **3-Tier Architecture**:
 
-    C --> J[API Service Layer]
-    J -- "REST Request" --> E
-    F & G & H --> K[Controllers]
-    K --> I
+1. **Frontend (React)** – User Interface
+2. **Backend (Node.js + Express)** – REST API & business logic
+3. **Database (MySQL)** – Persistent data storage
+
+```
+React (UI)
+   ↓
+Express REST API
+   ↓
+MySQL Database
 ```
 
+This separation ensures **maintainability, scalability, and security**.
+
 ---
 
-## 🛠️ Tech Stack & Implementation Details
+## 🛠️ Technology Stack
 
-### **Frontend Implementation**
-- **Library**: React 18+
-- **Routing**: `react-router-dom` for seamless SPA navigation.
-- **Search System**: Implemented using a **Top-Down State Flow**. The `Header` captures search input and updates a global `searchTerm` in `App.js`, which dynamically re-renders the `Home` page filtered results.
-- **Styling**: Vanilla CSS with a focus on **BEM (Block Element Modifier)** methodology for scoped, maintainable styles.
+### Frontend
 
-### **Backend Implementation**
-- **Runtime**: Node.js
-- **Framework**: Express.js
-- **Security**: 
-  - **JWT**: Stateless authentication using JSON Web Tokens.
-  - **Bcrypt**: Industrial-grade password hashing for user security.
-  - **Dotenv**: Environment-based configuration for secrets management (Database, JWT_SECRET).
-- **Concurrency**: Handled via asynchronous non-blocking I/O and Connection Pooling (MySQL).
+* **React.js (18+)**
+* **React Router DOM** – SPA routing
+* **CSS (BEM methodology)** – Maintainable styling
+* **Hooks** – `useState`, `useEffect`, `useContext`
 
-## 💻 Technology Stack Used
+### Backend
 
-- **Frontend**: React.js, React Router, HTML5, CSS3 (BEM)
-- **Backend**: Node.js, Express.js (REST API)
-- **Database**: MySQL 8.0+
-- **Security**: JWT (JSON Web Tokens), Bcrypt.js (Password Hashing)
-- **Environment**: Dotenv (Secrets Management)
-- **Version Control**: Git & GitHub
+* **Node.js**
+* **Express.js**
+* **JWT (JSON Web Token)** – Authentication
+* **Bcrypt.js** – Password hashing
+* **Dotenv** – Environment variable management
 
-## ⚙️ MySQL Stored Procedures Implementation
+### Database
 
-For enhanced performance and a more scalable architecture, we use **Stored Procedures** to handle database logic. This reduces the overhead of raw SQL queries in the backend code.
+* **MySQL 8.0+**
+* **Stored Procedures** for optimized database operations
+* **Relational schema** for users, products, and cart
 
-### 1. Definition (`init_db.js`)
+---
+
+## 🔐 Security Implementation
+
+* Passwords are hashed using **Bcrypt** (salt rounds: 10)
+* JWT tokens secure protected routes
+* Sensitive credentials stored using **environment variables**
+* Stateless authentication for better scalability
+
+---
+
+## ⚙️ Stored Procedure Example
+
+### Stored Procedure Definition
+
 ```sql
 CREATE PROCEDURE GetProducts()
 BEGIN
@@ -78,8 +82,8 @@ BEGIN
 END;
 ```
 
-### 2. Implementation (`routes/productRoutes.js`)
-Instead of `SELECT * FROM products`, the backend now calls:
+### Backend Usage
+
 ```javascript
 const sql = "CALL GetProducts()";
 db.query(sql, (err, results) => {
@@ -87,76 +91,108 @@ db.query(sql, (err, results) => {
 });
 ```
 
----
+**Why Stored Procedures?**
 
-### **Database Schema**
-- **Users**: Stores hashed credentials and profile data.
-- **Products**: Detailed inventory with pricing and Unsplash-powered image CDNs.
-- **Stored Procedures**: Encapsulated business logic within the database using MySQL Procedures (e.g., `CALL GetProducts()`) for optimized performance and security.
-- **Cart**: Relational table linking `userId` to `productId` with atomic quantity updates using `ON DUPLICATE KEY UPDATE` logic.
+* Better performance
+* Reduced SQL injection risk
+* Cleaner backend code
 
 ---
 
-## 🔌 API Documentation
+## 🗄️ Database Design
 
-| Method | Endpoint | Description | Auth Required |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/products` | Fetch all available products | No |
-| `POST` | `/api/auth/register` | Create a new user account | No |
-| `POST` | `/api/auth/login` | Authenticate and receive JWT | No |
-| `GET` | `/api/cart/:userId` | Get user's shopping cart | Yes |
-| `POST` | `/api/cart/add` | Add/Update item in cart | Yes |
-| `PUT` | `/api/cart/remove` | Decrement or delete item | Yes |
+### Tables
+
+* **Users** – Authentication & profile data
+* **Products** – Product details & pricing
+* **Cart** – User-product relationship with quantity
+
+### Cart Logic
+
+* Uses `ON DUPLICATE KEY UPDATE` to handle quantity updates atomically
+* Ensures data consistency and integrity
 
 ---
 
-## 📂 Modular Folder Structure
+## 📂 Project Structure
 
-```text
-├── amazon-backend                 # Node.js Server Environment
-│   ├── config/                    # DB connection & Environment config
-│   ├── controllers/               # Business logic handlers
-│   ├── middleware/                # JWT & Security filters
-│   ├── routes/                    # RESTful endpoint definitions
-│   ├── init_db.js                 # DB Migration & Seeding script
-│   └── server.js                  # Entry point (Express)
-├── src                            # React Application Environment
-│   ├── components/                # Reusable UI Components (Header, Card)
-│   ├── pages/                     # Routed views (Home, Cart, Login)
-│   ├── services/                  # Persistent API interaction layer
-│   └── context/                   # Global state (Cart/Auth state)
-└── README.md                      # Documentation
+```
+amazon-clone/
+│
+├── amazon-backend/
+│   ├── config/          # Database & environment configuration
+│   ├── controllers/     # Business logic
+│   ├── middleware/      # JWT authentication
+│   ├── routes/          # API routes
+│   ├── init_db.js       # Database setup & seeding
+│   └── server.js        # Express server entry point
+│
+├── src/
+│   ├── components/      # Reusable UI components
+│   ├── pages/           # Application pages
+│   ├── services/        # API service layer
+│   └── context/         # Global state management
+│
+└── README.md
 ```
 
----
+## 🏁 Installation & Setup
 
-## 🏁 Installation & Deployment
+### 1️⃣ Clone the Repository
 
-### 1. Database Initialization
+```bash
+git clone https://github.com/your-username/amazon-clone.git
+cd amazon-clone
+```
+
+### 2️⃣ Backend Setup
+
 ```bash
 cd amazon-backend
-# Set your .env variables first
+npm install
+```
+
+Create a `.env` file:
+
+```env
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=yourpassword
+DB_NAME=amazon_db
+JWT_SECRET=your_secret_key
+```
+
+Initialize database:
+
+```bash
 node init_db.js
 ```
 
-### 2. Launch Services
-```bash
-# Start Backend (Port 5000)
-cd amazon-backend
-npm start
+Start backend:
 
-# Start Frontend (Port 3000)
-cd ..
+```bash
 npm start
 ```
 
+### 3️⃣ Frontend Setup
+
+```bash
+cd ..
+npm install
+npm start
+```
+
+* Frontend: `http://localhost:3000`
+* Backend: `http://localhost:5000`
+
 ---
 
-## 🛡️ Scalability Roadmap
-- [x] Environment variable support for multi-stage deployment.
-- [x] Atomic database operations for data integrity.
-- [ ] Implement Redis for session/cart caching.
-- [ ] migrate to TypeScript for type-safe development.
+## 📈 Future Enhancements
+
+* [ ] Redis caching for cart & sessions
+* [ ] Payment gateway integration
+* [ ] Role-based access (Admin/User)
+* [ ] TypeScript migration
+* [ ] Docker deployment
 
 ---
-*Developed for excellence by the Advanced Agentic Coding team.*
