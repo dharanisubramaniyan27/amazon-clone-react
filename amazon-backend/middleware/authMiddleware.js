@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
 
   if (!token) return res.status(401).json("No token");
 
-  jwt.verify(token, "SECRET", (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET || "SECRET", (err, decoded) => {
     if (err) return res.status(401).json("Invalid token");
     req.userId = decoded.id;
     next();

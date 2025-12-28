@@ -31,7 +31,7 @@ exports.login = (req, res) => {
 
       if (!valid) return res.status(401).json("Invalid");
 
-      const token = jwt.sign({ id: user.id }, "SECRET", {
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || "SECRET", {
         expiresIn: "1d",
       });
 
