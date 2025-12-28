@@ -5,14 +5,14 @@ function ProductCard({ product, addToCart }) {
   return (
     <div className="productCard">
       <img
-  src={product.image}
-  alt={product.title}
-  onError={(e) => {
-    e.target.onerror = null;
-    e.target.src =
-      "https://via.placeholder.com/300x300?text=Image+Not+Available";
-  }}
-/>
+        src={product.image || "https://via.placeholder.com/300x300?text=No+Image"}
+        alt={product.title}
+        className="productCard__image"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = "https://via.placeholder.com/300x300?text=Image+Not+Available";
+        }}
+      />
       <Link to={`/product/${product.id}`}>
         <h4>{product.title}</h4>
       </Link>
@@ -20,8 +20,8 @@ function ProductCard({ product, addToCart }) {
       <p>₹{product.price}</p>
 
       <button type="button" onClick={() => addToCart(product)}>
-  Add to Cart
-</button>
+        Add to Cart
+      </button>
 
     </div>
   );

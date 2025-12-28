@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home";
@@ -6,66 +6,91 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProductDetail from "./pages/ProductDetail";
+import Checkout from "./pages/Checkout";
+import { getProducts, getCart, addToCart as addToCartAPI, removeFromCart as removeFromCartAPI } from "./services/api";
 
 function App() {
-  const products = [
-  {
-    id: 1,
-    title: "Apple iPhone 15 (128 GB) - Black",
-    price: 79999,
-    image: "https://m.media-amazon.com/images/I/71657TiFeHL._SX679_.jpg",
-    rating: 5,
-  },
-  {
-  id: 2,
-  title: "HP 15s Laptop (16GB RAM, 512GB SSD)",
-  price: 58999,
-  image: "https://m.media-amazon.com/images/I/71S8U9VzLTL._SL1500_.jpg",
-  rating: 4,
-},
-  {
-    id: 3,
-    title: "boAt Rockerz 255 Pro+ Bluetooth Earphones",
-    price: 1299,
-    image: "https://m.media-amazon.com/images/I/61KNJav3S9L._SX679_.jpg",
-    rating: 4,
-  },
-];
-
-
+  const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const addToCart = (product) => {
-  const found = cart.find((item) => item.id === product.id);
+  const userId = localStorage.getItem("userId");
 
-  if (found) {
-    setCart(
-      cart.map((item) =>
-        item.id === product.id ? { ...item, qty: item.qty + 1 } : item
-      )
-    );
-  } else {
-    setCart([...cart, { ...product, qty: 1 }]);
-  }
-};
+  useEffect(() => {
+    const initData = async () => {
+      try {
+        const productData = await getProducts();
+        setProducts(productData);
 
+        if (userId) {
+          const cartData = await getCart(userId);
+          setCart(cartData);
+        }
+      } catch (err) {
+        console.error("Initialization error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    initData();
+  }, [userId]);
 
-  const removeFromCart = (id) => {
-  setCart(
-    cart
-      .map((item) =>
-        item.id === id
-          ? { ...item, qty: item.qty - 1 } // reduce quantity by 1
-          : item
-      )
-      .filter((item) => item.qty > 0) // remove item if qty <= 0
-  );
-};
+  const addToCart = async (product) => {
+    const pId = product.id || product.product_id;
 
+    if (userId) {
+      try {
+        await addToCartAPI(userId, pId, 1);
+        const updatedCart = await getCart(userId);
+        setCart(updatedCart);
+      } catch (err) {
+        console.error("Add to cart error:", err);
+      }
+    } else {
+      const found = cart.find((item) => (item.id === pId || item.product_id === pId));
+      if (found) {
+        setCart(
+          cart.map((item) =>
+            (item.id === pId || item.product_id === pId)
+              ? { ...item, qty: item.qty + 1 }
+              : item
+          )
+        );
+      } else {
+        setCart([...cart, { ...product, id: pId, qty: 1 }]);
+      }
+    }
+  };
+
+  const removeFromCart = async (id) => {
+    if (userId) {
+      try {
+        await removeFromCartAPI(userId, id);
+        const updatedCart = await getCart(userId);
+        setCart(updatedCart);
+      } catch (err) {
+        console.error("Remove from cart error:", err);
+      }
+    } else {
+      setCart(
+        cart
+          .map((item) =>
+            (item.id === id || item.product_id === id)
+              ? { ...item, qty: item.qty - 1 }
+              : item
+          )
+          .filter((item) => item.qty > 0)
+      );
+    }
+  };
+
+  const clearCart = () => setCart([]);
+
+  if (loading) return <div>Loading Amazon...</div>;
 
   return (
     <Router>
-      <Header cartCount={cart.length} />
+      <Header cartCount={cart.reduce((acc, item) => acc + item.qty, 0)} />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -83,16 +108,22 @@ function App() {
         />
 
         <Route
-  path="/cart"
-  element={
-    <Cart
-      cart={cart}
-      removeFromCart={removeFromCart}
-      addToCart={addToCart} // ✅ pass addToCart here
-    />
-  }
-/>
+          path="/cart"
+          element={
+            <Cart
+              cart={cart}
+              removeFromCart={removeFromCart}
+              addToCart={addToCart}
+            />
+          }
+        />
 
+        <Route
+          path="/checkout"
+          element={
+            <Checkout cart={cart} clearCart={clearCart} />
+          }
+        />
       </Routes>
     </Router>
   );
