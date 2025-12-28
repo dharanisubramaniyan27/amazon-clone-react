@@ -2,9 +2,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./Header.css";
 
-function Header({ cartCount = 0 }) {
+function Header({ cartCount = 0, onSearch }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
+
+  const handleSearchChange = (e) => {
+    if (onSearch) {
+      onSearch(e.target.value);
+    }
+  };
 
   useEffect(() => {
     const authStatus = localStorage.getItem("isAuthenticated");
@@ -26,7 +32,12 @@ function Header({ cartCount = 0 }) {
         </Link>
       </h2>
 
-      <input className="search" type="text" placeholder="Search Amazon" />
+      <input
+        className="search"
+        type="text"
+        placeholder="Search Amazon"
+        onChange={handleSearchChange}
+      />
 
       <div className="nav">
         {isAuthenticated ? (

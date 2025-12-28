@@ -11,8 +11,14 @@ import { getProducts, getCart, addToCart as addToCartAPI, removeFromCart as remo
 
 function App() {
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Filter products based on search term
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const userId = localStorage.getItem("userId");
 
@@ -90,14 +96,17 @@ function App() {
 
   return (
     <Router>
-      <Header cartCount={cart.reduce((acc, item) => acc + item.qty, 0)} />
+      <Header
+        cartCount={cart.reduce((acc, item) => acc + item.qty, 0)}
+        onSearch={setSearchTerm}
+      />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
         <Route
           path="/"
-          element={<Home products={products} addToCart={addToCart} />}
+          element={<Home products={filteredProducts} addToCart={addToCart} />}
         />
 
         <Route

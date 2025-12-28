@@ -103,3 +103,10 @@ button:hover {
   margin-top: 50px;
   text-align: center;
 }
+
+.home__noProducts {
+  width: 100%;
+  text-align: center;
+  padding: 50px;
+  color: #555;
+}
