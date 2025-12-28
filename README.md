@@ -57,6 +57,38 @@ graph TD
   - **Dotenv**: Environment-based configuration for secrets management (Database, JWT_SECRET).
 - **Concurrency**: Handled via asynchronous non-blocking I/O and Connection Pooling (MySQL).
 
+## 💻 Technology Stack Used
+
+- **Frontend**: React.js, React Router, HTML5, CSS3 (BEM)
+- **Backend**: Node.js, Express.js (REST API)
+- **Database**: MySQL 8.0+
+- **Security**: JWT (JSON Web Tokens), Bcrypt.js (Password Hashing)
+- **Environment**: Dotenv (Secrets Management)
+- **Version Control**: Git & GitHub
+
+## ⚙️ MySQL Stored Procedures Implementation
+
+For enhanced performance and a more scalable architecture, we use **Stored Procedures** to handle database logic. This reduces the overhead of raw SQL queries in the backend code.
+
+### 1. Definition (`init_db.js`)
+```sql
+CREATE PROCEDURE GetProducts()
+BEGIN
+    SELECT * FROM products;
+END;
+```
+
+### 2. Implementation (`routes/productRoutes.js`)
+Instead of `SELECT * FROM products`, the backend now calls:
+```javascript
+const sql = "CALL GetProducts()";
+db.query(sql, (err, results) => {
+    res.json(results[0]);
+});
+```
+
+---
+
 ### **Database Schema**
 - **Users**: Stores hashed credentials and profile data.
 - **Products**: Detailed inventory with pricing and Unsplash-powered image CDNs.
