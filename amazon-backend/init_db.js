@@ -120,9 +120,19 @@ conn.connect((err) => {
                     if (err) console.error('Create orders table error:', err.message);
                     else console.log('orders table ensured');
 
-                    db.end();
-                    conn.end();
-                    console.log('DB re-initialization complete');
+                    // Create Stored Procedures
+                    // Note: mysql2 doesn't support multiple statements by default, so execute individually
+                    db.query('DROP PROCEDURE IF EXISTS GetProducts', (err) => {
+                      if (err) console.error("Error dropping procedure:", err.message);
+                      db.query('CREATE PROCEDURE GetProducts() BEGIN SELECT * FROM products; END', (err) => {
+                        if (err) console.error("Error creating procedure:", err.message);
+                        else console.log("Stored procedures ensured");
+
+                        db.end();
+                        conn.end();
+                        console.log('DB re-initialization complete');
+                      });
+                    });
                   });
                 });
               });

@@ -60,6 +60,7 @@ graph TD
 ### **Database Schema**
 - **Users**: Stores hashed credentials and profile data.
 - **Products**: Detailed inventory with pricing and Unsplash-powered image CDNs.
+- **Stored Procedures**: Encapsulated business logic within the database using MySQL Procedures (e.g., `CALL GetProducts()`) for optimized performance and security.
 - **Cart**: Relational table linking `userId` to `productId` with atomic quantity updates using `ON DUPLICATE KEY UPDATE` logic.
 
 ---
